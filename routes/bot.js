@@ -12,11 +12,21 @@ router.get('/meteo', function(req, res, next) {
     if (!error && response.statusCode == 200) {
       var $ = cheerio.load(html);
       var td = [];
-      var name = $('.ot #txt table tr td').each(function (i,element) {
+      $('.ot #txt table tr td').each(function (i,element) {
         td[i] = $(this).text();
+        td[i] = td[i].replace(/(?:\r\n|\r|\n|\t)/g, "");
       });
       td.join(', ');
-      console.log(td);
+      var temperature = {
+        'Восход Солнца': td[1],
+        'Заход Солнца': td[3],
+        'Радиационный фон': td[5],
+        'Температура ночью': td[10],
+        'Температура днём':td[13],
+        'Осадки ночью':td[11],
+        'Осадки днём':td[14]
+      }
+      res.json(temperature);
 
     } else {
       return res.json({
@@ -30,23 +40,17 @@ router.get('/meteo', function(req, res, next) {
 router.get('/meteo2', function(req, res, next) {
   request('http://meteo.kg/index.php?reg=chu', function (error, response, html) {
     if (!error && response.statusCode == 200) {
-
-      var inXpath = "BODY/TABLE[1]/TR[1]/TD[1]/DIV[1]/H3[1]";
-      var xpath = inXpath.split( "/" );
-      var dom_body = cheerio.load(html);
-      var sss = dom_body('*');
-      for( var i = 0; i < xpath.length; i++ ) {
-          if (xpath[i].indexOf('[') == -1){
-              sss = sss.children(xpath[i])
-          } else {
-              var selector = xpath[i].split('[')[0];
-              var matches = xpath[i].match(/\[(.*?)\]/);
-              var index = matches[1] - 1;
-              sss = sss.children(selector).eq(index)
-          }
-      }
-      console.log(sss.text())
-
+      var $ = cheerio.load(html);
+      var td = [];
+      var first = $('.ot').next().children().children().eq(1).text();
+      first = first.replace(/(?:\r\n|\r|\n|\t)/g, "");
+      var second = $('.ot').next().children().eq(3).text();
+      second = second.replace(/(?:\r\n|\r|\n|\t)/g, "");
+      var full = first + second;
+      //var third = [];
+      var third =  $('.sample').eq(2).children().children().eq(1).children().eq(0).text();
+      var third = third.replace(/(?:\r\n|\r|\n|\t)/g, "");
+      res.json(third);
 
 
     } else {
