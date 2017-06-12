@@ -29,7 +29,7 @@ router.get('/chu', function(req, res, next) {
 
       var f_day = $('.ot').next().children().children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       var s_day = $('.ot').next().children().eq(3).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
-      
+
       var table = [];
       table[0] =  $('.sample').eq(2).children().children().eq(1).children().eq(0).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[1] =  $('.sample').eq(2).children().children().eq(1).children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
@@ -37,7 +37,7 @@ router.get('/chu', function(req, res, next) {
       table[3] =  $('.sample').eq(2).children().children().eq(2).children().eq(0).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[4] =  $('.sample').eq(2).children().children().eq(2).children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[5] =  $('.sample').eq(2).children().children().eq(2).children().eq(2).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
-      
+
       var table2 ={
         f_row:{
           name:table[0],
@@ -50,7 +50,7 @@ router.get('/chu', function(req, res, next) {
           day:table[5]
         }
       };
-      
+
       var output = {
         table1,
         table2,
@@ -85,7 +85,7 @@ router.get('/osh', function(req, res, next) {
 
       var f_day = $('.ot').next().children().children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "")
       var s_day = $('.ot').next().children().eq(3).text().replace(/(?:\r\n|\r|\n|\t)/g, "")
-      
+
       var table = [];
       table[0] =  $('.sample').eq(1).children().children().eq(1).children().eq(0).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[1] =  $('.sample').eq(1).children().children().eq(1).children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
@@ -106,14 +106,14 @@ router.get('/osh', function(req, res, next) {
           day:table[5]
         }
       };
-      
+
       var output = {
         table1,
         table2,
         text:{f_day,s_day}
       };
 
-    
+
       res.json(output);
     } else {
       return res.json({
@@ -151,7 +151,7 @@ router.get('/naryn', function(req, res, next) {
       table[3] =  $('.sample').eq(1).children().children().eq(2).children().eq(0).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[4] =  $('.sample').eq(1).children().children().eq(3).children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[5] =  $('.sample').eq(1).children().children().eq(3).children().eq(2).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
-  
+
       var table2 = {
         f_row:{
           name:table[0],
@@ -159,7 +159,7 @@ router.get('/naryn', function(req, res, next) {
           day:table[2]
         }
       };
-      
+
       var output = {
         table1,
         table2,
@@ -263,7 +263,7 @@ router.get('/capitals', function(req, res, next) {
       table[7] =  $('.sample').eq(2).children().children().eq(2).children().eq(5).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[8] =  $('.sample').eq(2).children().children().eq(2).children().eq(6).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[9] =  $('.sample').eq(2).children().children().eq(2).children().eq(0).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
-      
+
       var table2 = {
         city:table[9],
         days:{
@@ -280,7 +280,7 @@ router.get('/capitals', function(req, res, next) {
           t_day:table[8]
         }
       };
-      
+
       table[10] =  $('.sample').eq(3).children().children().eq(0).children().eq(1).text().replace(/(?:\r\n|\r|\n|\t|)/g, "");
       table[11] =  $('.sample').eq(3).children().children().eq(0).children().eq(2).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[12] =  $('.sample').eq(3).children().children().eq(0).children().eq(3).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
@@ -291,7 +291,7 @@ router.get('/capitals', function(req, res, next) {
       table[17] =  $('.sample').eq(3).children().children().eq(2).children().eq(5).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[18] =  $('.sample').eq(3).children().children().eq(2).children().eq(6).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
       table[19] =  $('.sample').eq(3).children().children().eq(2).children().eq(0).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
-      
+
       var table3 = {
         city:table[19],
         days:{
@@ -308,8 +308,8 @@ router.get('/capitals', function(req, res, next) {
           t_day:table[18]
         }
       };
-      
-      
+
+
       var output = {
         table1,
         table2,
@@ -321,6 +321,21 @@ router.get('/capitals', function(req, res, next) {
 
       };
       res.json(output);
+    } else {
+      return res.json({
+        success:false,
+        message:error
+      });
+    }
+  });
+});
+
+router.get('/capitals', function(req, res, next) {
+  request('http://meteo.kg/index.php?reg=capitals', function (error, response, html) {
+    if (!error && response.statusCode == 200) {
+
+
+      
     } else {
       return res.json({
         success:false,
