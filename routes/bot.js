@@ -125,7 +125,7 @@ router.get('/osh', function(req, res, next) {
 });
 
 router.get('/naryn', function(req, res, next) {
-  request('http://meteo.kg/index.php?reg=naryn', function (error, response, html) {
+  request('http://meteo.kg/index.php?reg=chu', function (error, response, html) {
     if (!error && response.statusCode == 200) {
       var $ = cheerio.load(html);
       var td = [];
@@ -141,7 +141,7 @@ router.get('/naryn', function(req, res, next) {
         day_prec_pass:td[8]
       };
 
-      var f_day = $('.ot').next().children().children().eq(1).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
+      var f_day = $('#txt > table:nth-child(2) > tbody > tr:nth-child(3) > td:nth-child(2)').text();
       var s_day = $('.ot').next().children().eq(3).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
 
       var table = [];
@@ -335,7 +335,7 @@ router.get('/capitals', function(req, res, next) {
     if (!error && response.statusCode == 200) {
 
 
-      
+
     } else {
       return res.json({
         success:false,
