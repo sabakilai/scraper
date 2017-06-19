@@ -307,4 +307,35 @@ router.get('/capitals', function(req, res)  {
 });
 
 
+router.get('/mes', function(req, res)  {
+  var url = 'http://mes.kg/ru/events/full/3387.html';
+  var data = [];
+  data.push(p.get(url,'#wrapper > div.content > div.main-coll.inner > div.svodka > div.svodka-full > p:nth-child(3)' )); // weather text for first day
+  data.push(p.get(url,'#txt > p:nth-child(1)' )); // weather text for second day
+
+  Promise.all(data).then(
+    (datas) => {
+      var output = {
+        text:{
+          first_day:datas[0],
+          second_day:datas[1]
+        }
+      };
+      res.json({
+        success: true,
+        message: 'Successful!',
+        data: output
+      });
+    }
+  ).catch(
+    (err) => {
+      res.json({
+        success: false,
+        message: 'Error'
+      });
+    }
+  );
+});
+
+
 module.exports = router;

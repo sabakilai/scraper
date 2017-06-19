@@ -4,10 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var CronJob = require('cron').CronJob;
+var job = require('./libs/job')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var bot = require('./routes/bot');
+var mes = require('./routes/mes');
 var meteo = require('./routes/meteo');
 
 
@@ -27,8 +29,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/bot', bot);
+app.use('/mes', mes);
 app.use('/meteo', meteo);
+
+new CronJob('* * * * * *', function() {
+  job.MainJob();
+}, null, true, 'America/Los_Angeles');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
