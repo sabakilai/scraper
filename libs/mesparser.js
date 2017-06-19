@@ -13,10 +13,11 @@ module.exports = {
           $('.svodka ul li a').each(function (i,element) {
             links[i] = 'http://mes.kg' + $(this).attr('href');
           });
+          links.join(', ');
           links = JSON.stringify(links);
           resolve(links);
         } else {
-          reject(err);
+          reject(error);
         }
       });
     });
@@ -30,15 +31,15 @@ module.exports = {
           data[i] = $(this).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
         });
         var output = [];
-        for (var i = 0; i < td.length; i++) {
-          if (td[i] != 'Прогноз погоды ' ){
-            output[i] = td[i];
+        for (var i = 0; i < data.length; i++) {
+          if (data[i] != 'Прогноз погоды ' ){
+            output[i] = data[i];
           }else {
             break;
           }
         }
         output = output.join(" ");
-        fs.writeFile('./data/mes/osh.json', output, 'utf8', () => {console.log('Added Mes file ');});
+        fs.writeFile('./data/mes/mes.json', output, 'utf8', () => {console.log('Added Mes file ');});
       } else {
         console.log('Error: ' + error );
       }
